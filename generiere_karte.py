@@ -9,9 +9,7 @@
 
 # Feste Liste von idealerweise eindeutigen, nicht zu kurzen Namen für die Dictionaries
 # Diese Liste muss man bei Bedarf an sein eigenes Textadventure anpassen!
-dicts = [
-    'north', 'east', 'south', 'west'
-]
+dicts = ['north', 'east', 'south', 'west']
 
 
 # Zerlege die gefundenen Dictionaries
@@ -130,9 +128,11 @@ def hauptprogramm(fname):
         f"Damit kann jetzt mit dem Befehl 'neato -Tpng {gvname} > {filename}.png' ein Hausplan erstellt werden."
     )
 
+
 # Aliasname
 def generiere_karte(fname):
     hauptprogramm(fname)
+
 
 if __name__ == '__main__':
     hauptprogramm()
