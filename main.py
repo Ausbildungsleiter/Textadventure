@@ -1,6 +1,6 @@
 # https://www.helloworld.cc - Heft 1 - Seite 52
 # Scary cave game -- Original Version CC BY-NC-SA 3.0
-# Diese modifizierte Version (C) 2022 Roland Härter r.haerter@wut.de
+# Diese modifizierte Version (C) 2023 Roland Härter r.haerter@wut.de
 
 north = {'R0': None, 'R1': None, 'R2': 'R0', 'R3': 'R1'}
 south = {'R0': 'R2', 'R1': 'R3', 'R2': None, 'R3': None}
@@ -15,7 +15,7 @@ compass = {
 }
 
 allowed_commands = [
-    'go north', 'go south', 'go east', 'go west', 'help', 'quit'
+    'go north', 'go south', 'go east', 'go west', 'help', 'quit', 'map'
 ]
 
 description = {
@@ -33,15 +33,16 @@ def hilfe():
     print('')
 
 
-current_room = 'R0'
-final_room = 'R3'
-
 print('	*** Welcome to Ravenswood Manor ***')
 hilfe()
 
+current_room = 'R0'
+previous_room = current_room
+print(description[current_room])
+final_room = 'R3'
+
 command = ''
 while (current_room is not None):
-    print(description[current_room])
     command = input('What do you want to do? ').lower()
     while command not in allowed_commands:
         command = input('No such command. What do you want to do? ').lower()
@@ -49,7 +50,12 @@ while (current_room is not None):
         hilfe()
     elif command == 'quit':
         current_room = None
+    elif command == 'map':
+        import sys
+        import generiere_karte
+        generiere_karte.generiere_karte(sys.argv[0])
     elif compass[command][current_room] is not None:
+        previous_room = current_room
         current_room = compass[command][current_room]
         if current_room == final_room:
             print(description[current_room])
@@ -57,3 +63,5 @@ while (current_room is not None):
             current_room = None
     else:
         print('There is no path in that direction. ', end='')
+    if current_room != None:
+        print(description[current_room])
