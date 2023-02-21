@@ -135,4 +135,4 @@ def generiere_karte(fname):
 
 
 if __name__ == '__main__':
-    hauptprogramm()
+    hauptprogramm('textadventure.py')
