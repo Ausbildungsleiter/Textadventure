@@ -1,67 +1,92 @@
 # https://www.helloworld.cc - Heft 1 - Seite 52
 # Scary cave game -- Original Version CC BY-NC-SA 3.0
 # Diese modifizierte Version (C) 2023 Roland Härter r.haerter@wut.de
+Nirgendwo = None
 
-north = {'R0': None, 'R1': None, 'R2': 'R0', 'R3': 'R1'}
-south = {'R0': 'R2', 'R1': 'R3', 'R2': None, 'R3': None}
-east = {'R0': 'R1', 'R1': None, 'R2': None, 'R3': None}
-west = {'R0': None, 'R1': 'R0', 'R2': None, 'R3': None}
+raumbeschreibung = {
+    'Küche': 'Du bist in der Küche. Diese scheint verlassen zu sein.',
+    'Wohnzimmer':
+    'Du befindest dich im Wohnzimmer. In einer Ecke steht eine alte Rüstung.',
+    'Vorratskammer':
+    'Du befindest dich in einer Speisekammer. Hier drin ist es kalt.',
+    'Diele': 'Diele. Hier ist der Ausgang aus diesem Haus.'
+}
+
+erlaubte_befehle = ['w', 'a', 's', 'd', 'hilfe', 'beenden', 'karte_zeichnen']
+
+nach_norden = {
+    'Küche': Nirgendwo,
+    'Wohnzimmer': Nirgendwo,
+    'Vorratskammer': 'Küche',
+    'Diele': 'Wohnzimmer'
+}
+nach_süden = {
+    'Küche': 'Vorratskammer',
+    'Wohnzimmer': 'Diele',
+    'Vorratskammer': Nirgendwo,
+    'Diele': Nirgendwo
+}
+nach_osten = {
+    'Küche': 'Wohnzimmer',
+    'Wohnzimmer': Nirgendwo,
+    'Vorratskammer': Nirgendwo,
+    'Diele': Nirgendwo
+}
+nach_westen = {
+    'Küche': Nirgendwo,
+    'Wohnzimmer': 'Küche',
+    'Vorratskammer': Nirgendwo,
+    'Diele': Nirgendwo
+}
 
 compass = {
-    'go north': north,
-    'go south': south,
-    'go east': east,
-    'go west': west
+    'w': nach_norden,
+    'a': nach_westen,
+    's': nach_süden,
+    'd': nach_osten,
 }
-
-allowed_commands = [
-    'go north', 'go south', 'go east', 'go west', 'help', 'quit', 'map'
-]
-
-description = {
-    'R0': 'You are in the kitchen. Seems to be abandonned.',
-    'R1': 'You are in the living room. An old armor stands in one corner.',
-    'R2': 'You are in a pantry. It is cold in here.',
-    'R3': 'Hallway. Here is the exit from this house.'
-}
-
 
 def hilfe():
-    print('You may use the following commands: ', end='')
-    for befehl in allowed_commands:
-        print(f"'{befehl}' ", end='')
-    print('')
+    print("\nZum Bewegen gibt es 'w' 'a' 's' und 'd'.")
+    print("Es gibt folgende weitere Befehle: ")
+    for befehlswort in erlaubte_befehle:
+        if befehlswort in ['w', 'a', 's', 'd']:
+            pass
+        else:
+            print(f"'{befehlswort}' ", end="")
+    print("\n")
 
 
-print('	*** Welcome to Ravenswood Manor ***')
+print('\n	*** Willkommen in Ravenswood Manor ***')
 hilfe()
 
-current_room = 'R0'
-previous_room = current_room
-print(description[current_room])
-final_room = 'R3'
+aktueller_raum = 'Küche'
+vorheriger_raum = aktueller_raum
+print(raumbeschreibung[aktueller_raum])
+zielraum = 'Diele'
 
-command = ''
-while (current_room is not None):
-    command = input('What do you want to do? ').lower()
-    while command not in allowed_commands:
-        command = input('No such command. What do you want to do? ').lower()
-    if command == 'help':
+kommando = ''
+while (aktueller_raum is not None):
+    kommando = input('Was möchtest du tun? ').lower()
+    while kommando not in erlaubte_befehle:
+        kommando = input(
+            'Dieses Kommando gibt es nicht. Was möchtest du tun? ').lower()
+    if kommando == 'hilfe':
         hilfe()
-    elif command == 'quit':
-        current_room = None
-    elif command == 'map':
+    elif kommando == 'beenden':
+        aktueller_raum = None
+    elif kommando == 'karte_zeichnen':
         import sys
         import generiere_karte
         generiere_karte.generiere_karte(sys.argv[0])
-    elif compass[command][current_room] is not None:
-        previous_room = current_room
-        current_room = compass[command][current_room]
-        if current_room == final_room:
-            print(description[current_room])
-            print('You found the final room. Game Over.')
-            current_room = None
+    elif compass[kommando][aktueller_raum] is not None:
+        vorheriger_raum = aktueller_raum
+        aktueller_raum = compass[kommando][aktueller_raum]
+        if aktueller_raum == zielraum:
+            print(raumbeschreibung[aktueller_raum])
+            print('Du hast den letzten Raum gefunden. Das Spiel ist aus.')
+            aktueller_raum = None
     else:
-        print('There is no path in that direction. ', end='')
-    if current_room != None:
-        print(description[current_room])
+        print('Es gibt keinen Weg in diese Richtung. ', end='')
+    if aktueller_raum != None:
+        print(raumbeschreibung[aktueller_raum])

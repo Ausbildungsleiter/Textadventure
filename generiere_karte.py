@@ -9,7 +9,7 @@
 
 # Feste Liste von idealerweise eindeutigen, nicht zu kurzen Namen für die Dictionaries
 # Diese Liste muss man bei Bedarf an sein eigenes Textadventure anpassen!
-dicts = ['north', 'east', 'south', 'west']
+dicts = ['nach_norden', 'nach_westen', 'nach_süden', 'nach_osten']
 
 
 # Zerlege die gefundenen Dictionaries
@@ -48,7 +48,7 @@ def erzeuge_graph(vliste):
             pass
         else:
             von, nach = element.split(':')
-            if nach == 'None':
+            if nach == 'None' or nach == 'Nirgendwo' :
                 pass
             else:
                 result = "{}->{}\n".format(von, nach)
