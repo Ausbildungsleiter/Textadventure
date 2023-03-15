@@ -12,7 +12,7 @@ raumbeschreibung = {
     'Diele': 'Diele. Hier ist der Ausgang aus diesem Haus.'
 }
 
-erlaubte_befehle = ['w', 'a', 's', 'd', 'hilfe', 'beenden', 'karte_zeichnen']
+erlaubte_befehle = ['w', 'a', 's', 'd', 'hilfe', 'beenden', 'karte zeichnen']
 
 nach_norden = {
     'Küche': Nirgendwo,
