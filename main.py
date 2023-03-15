@@ -76,9 +76,10 @@ while (aktueller_raum is not None):
     elif kommando == 'beenden':
         aktueller_raum = None
     elif kommando == 'karte zeichnen':
-        import sys
+        import os
         import generiere_karte
-        generiere_karte.generiere_karte(sys.argv[0])
+        generiere_karte.generiere_karte('main.py')
+        os.system("neato -Tpng main.gv > main.png")
     elif compass[kommando][aktueller_raum] is not None:
         vorheriger_raum = aktueller_raum
         aktueller_raum = compass[kommando][aktueller_raum]
