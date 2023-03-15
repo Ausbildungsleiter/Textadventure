@@ -75,7 +75,7 @@ while (aktueller_raum is not None):
         hilfe()
     elif kommando == 'beenden':
         aktueller_raum = None
-    elif kommando == 'karte_zeichnen':
+    elif kommando == 'karte zeichnen':
         import sys
         import generiere_karte
         generiere_karte.generiere_karte(sys.argv[0])
